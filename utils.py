@@ -1,4 +1,23 @@
 import numpy as np
+import pandas as pd
+
+def gather_data(to_drop=[]) -> tuple:
+    """
+      Automatically gets our data from the World Happiness Report file and drops the nans.
+
+      Args:
+        to_drop: Any additional columns to drop from the dataframe.
+
+      Returns:
+        An Nxd numpy array for the data section, and a Nx1 numpy array for the labels
+    """
+    df = pd.read_csv('World Happiness Report 2005-2021.csv')
+    df.dropna(inplace=True)
+    label = df.pop("Life Ladder")
+    # Purge unused columns
+    to_drop.extend(["Country name", "Year"])
+    [df.pop(col) for col in to_drop]
+    return df.to_numpy(), label.to_numpy()
 
 def basis_expanstion(x: np.ndarray, n: int, bias: bool=True) -> np.ndarray:
     """
@@ -35,3 +54,6 @@ if __name__ == "__main__":
     )
     print(basis_expanstion(x, 3, True))
     print(basis_expanstion(x, 1, False))
+    data, label = gather_data()
+    print(data)
+    print(label)
