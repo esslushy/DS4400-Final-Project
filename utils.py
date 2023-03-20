@@ -45,6 +45,19 @@ def basis_expanstion(x: np.ndarray, n: int, bias: bool=True) -> np.ndarray:
         x_new = np.concatenate([x_new, np.ones((len(x), 1))], axis=1)
     return x_new
 
+def mean_squared_percentage_error(y_true: np.ndarray, y_pred: np.ndarray) -> int:
+    """
+      Predicts the MSPE between the y_true and y_pred labels.
+
+      Args:
+        y_true: The true labels
+        y_pred: the predicted labels
+
+      Returns:
+        An [0, 100] which represents the MSPE
+    """
+    return 100 * (1.0/len(y_true)) * np.sum((y_true - y_pred)/y_true)**2
+
 # Testing
 if __name__ == "__main__":
     x = np.array(
@@ -58,3 +71,4 @@ if __name__ == "__main__":
     data, label = gather_data()
     print(data)
     print(label)
+    print(mean_squared_percentage_error(np.array([4, 5, 6, 7]), np.array([4.5, 4.5, 6, 8])))
