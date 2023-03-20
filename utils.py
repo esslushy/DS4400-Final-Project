@@ -17,6 +17,7 @@ def gather_data(to_drop=[]) -> tuple:
     # Purge unused columns
     to_drop.extend(["Country name", "Year"])
     [df.pop(col) for col in to_drop]
+    print(df.columns)
     return df.to_numpy(), label.to_numpy()
 
 def basis_expanstion(x: np.ndarray, n: int, bias: bool=True) -> np.ndarray:
