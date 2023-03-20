@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-def gather_data(to_drop=[]) -> tuple:
+def gather_data(to_drop: list[str]=[]) -> tuple:
     """
       Automatically gets our data from the World Happiness Report file and drops the nans.
 
