@@ -20,7 +20,7 @@ def gather_data(to_drop: list[str]=[]) -> tuple:
     print(df.columns)
     return df.to_numpy(), label.to_numpy()
 
-def basis_expanstion(x: np.ndarray, n: int, bias: bool=True) -> np.ndarray:
+def basis_expansion(x: np.ndarray, n: int, bias: bool=True) -> np.ndarray:
     """
       Expands the degrees of freedom of the provided data by 
       degrees [1, 2, ..., n]. If bias is true, places a 1 at the end of data.
@@ -66,8 +66,8 @@ if __name__ == "__main__":
           [6, 7, 8]
         ]
     )
-    print(basis_expanstion(x, 3, True))
-    print(basis_expanstion(x, 1, False))
+    print(basis_expansion(x, 3, True))
+    print(basis_expansion(x, 1, False))
     data, label = gather_data()
     print(data)
     print(label)
