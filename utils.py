@@ -56,7 +56,7 @@ def mean_squared_percentage_error(y_true: np.ndarray, y_pred: np.ndarray) -> flo
       Returns:
         An [0, 100] which represents the MSPE
     """
-    return 100 * (1.0/len(y_true)) * np.sum((y_true - y_pred)/y_true)**2
+    return 100 * (1.0/len(y_true)) * np.sum(((y_true - y_pred)/y_true)**2)
 
 # Testing
 if __name__ == "__main__":
