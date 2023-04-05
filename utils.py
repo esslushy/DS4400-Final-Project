@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 
 def gather_data(to_drop: list[str]=[]) -> tuple:
     """
@@ -17,6 +18,10 @@ def gather_data(to_drop: list[str]=[]) -> tuple:
     # Purge unused columns
     to_drop.extend(["Country name", "Year"])
     [df.pop(col) for col in to_drop]
+    # Min-max scaling
+    scaling = MinMaxScaler()
+    df["Log GDP per capita"] = scaling.fit_transform(df["Log GDP per capita"].values.reshape(-1, 1))
+    df["Healthy life expectancy at birth"] = scaling.fit_transform(df["Healthy life expectancy at birth"].values.reshape(-1, 1))
     print(df.columns)
     return df.to_numpy(), label.to_numpy()
 
@@ -69,6 +74,6 @@ if __name__ == "__main__":
     print(basis_expansion(x, 3, True))
     print(basis_expansion(x, 1, False))
     data, label = gather_data()
-    print(data)
+    print(data[0])
     print(label)
     print(mean_squared_percentage_error(np.array([4, 5, 6, 7]), np.array([4.5, 4.5, 6, 8])))
