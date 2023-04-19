@@ -1,2 +1,2 @@
 # DS4400-Final-Project
-Final project for DS4400
+Final project for DS4400. Our goal was to learn how to solve a problem using machine learning techniques and present our work to the class. This involved creating an initial proposal of our project that included the original dataset and exploration of that dataset. We then had to put to use atleast 4 machine learning systems to solve that problem, evaluate them, and select the best one.
