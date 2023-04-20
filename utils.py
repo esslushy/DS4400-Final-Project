@@ -10,7 +10,7 @@ def gather_data(to_drop: list[str]=[]) -> tuple:
         to_drop: Any additional columns to drop from the dataframe.
 
       Returns:
-        The train data, the train labels, the test data, and the test labels in numpy arrays.
+        The train data, the test data, the train labels, and the test labels in numpy arrays.
     """
     train_df, test_df = pd.read_csv('data/train.csv'), pd.read_csv("data/test.csv")
     train_labels, test_labels = train_df.pop("Life Ladder"), test_df.pop("Life Ladder")
@@ -27,7 +27,7 @@ def gather_data(to_drop: list[str]=[]) -> tuple:
     test_df["Log GDP per capita"] = gdp_scaling.transform(test_df["Log GDP per capita"].values.reshape(-1, 1))
     test_df["Healthy life expectancy at birth"] = life_scaling.transform(test_df["Healthy life expectancy at birth"].values.reshape(-1, 1))
     print(train_df.columns)
-    return train_df.to_numpy(), train_labels.to_numpy(), test_df.to_numpy(), test_labels.to_numpy()
+    return train_df.to_numpy(), test_df.to_numpy(), train_labels.to_numpy(), test_labels.to_numpy()
 
 def basis_expansion(x: np.ndarray, n: int, bias: bool=True) -> np.ndarray:
     """
