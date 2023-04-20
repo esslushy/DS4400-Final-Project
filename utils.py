@@ -10,20 +10,24 @@ def gather_data(to_drop: list[str]=[]) -> tuple:
         to_drop: Any additional columns to drop from the dataframe.
 
       Returns:
-        An Nxd numpy array for the data section, and a Nx1 numpy array for the labels
+        The train data, the train labels, the test data, and the test labels in numpy arrays.
     """
-    df = pd.read_csv('World Happiness Report 2005-2021.csv')
-    df.dropna(inplace=True)
-    label = df.pop("Life Ladder")
+    train_df, test_df = pd.read_csv('data/train.csv'), pd.read_csv("data/test.csv")
+    train_labels, test_labels = train_df.pop("Life Ladder"), test_df.pop("Life Ladder")
     # Purge unused columns
     to_drop.extend(["Country name", "Year"])
-    [df.pop(col) for col in to_drop]
+    for col in to_drop:
+        train_df.pop(col)
+        test_df.pop(col)
     # Min-max scaling
-    scaling = MinMaxScaler()
-    df["Log GDP per capita"] = scaling.fit_transform(df["Log GDP per capita"].values.reshape(-1, 1))
-    df["Healthy life expectancy at birth"] = scaling.fit_transform(df["Healthy life expectancy at birth"].values.reshape(-1, 1))
-    print(df.columns)
-    return df.to_numpy(), label.to_numpy()
+    gdp_scaling = MinMaxScaler()
+    life_scaling = MinMaxScaler()
+    train_df["Log GDP per capita"] = gdp_scaling.fit_transform(train_df["Log GDP per capita"].values.reshape(-1, 1))
+    train_df["Healthy life expectancy at birth"] = life_scaling.fit_transform(train_df["Healthy life expectancy at birth"].values.reshape(-1, 1))
+    test_df["Log GDP per capita"] = gdp_scaling.transform(test_df["Log GDP per capita"].values.reshape(-1, 1))
+    test_df["Healthy life expectancy at birth"] = life_scaling.transform(test_df["Healthy life expectancy at birth"].values.reshape(-1, 1))
+    print(train_df.columns)
+    return train_df.to_numpy(), train_labels.to_numpy(), test_df.to_numpy(), test_labels.to_numpy()
 
 def basis_expansion(x: np.ndarray, n: int, bias: bool=True) -> np.ndarray:
     """
@@ -73,7 +77,9 @@ if __name__ == "__main__":
     )
     print(basis_expansion(x, 3, True))
     print(basis_expansion(x, 1, False))
-    data, label = gather_data()
-    print(data[0])
-    print(label)
+    train_data, train_label, test_data, test_label = gather_data()
+    print(train_data[0])
+    print(train_label[:3])
+    print(test_data[0])
+    print(test_label[:3])
     print(mean_squared_percentage_error(np.array([4, 5, 6, 7]), np.array([4.5, 4.5, 6, 8])))
